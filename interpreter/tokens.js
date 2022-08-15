@@ -1,7 +1,3 @@
-module.exports = {
-
-}
-
 /**
  x = 5 // [x,=,5,\n,(same indent)]
  square n (int) -> int: n * n // [square,n,(,int,),->,int,:,n,*,n,\n,(same indent)]
@@ -20,6 +16,17 @@ const isSpecial = (expression, idx, expectedFirst, expectedSecond) => {
     return first === expectedFirst && second === expectedSecond;
 }
 
+const isNumericLiteral = (expression, idx) => {
+    if (idx <= 0 || idx >= expression.length ) {
+        return false;
+    }
+    const prev = expression[idx - 1];
+    const current = expression[idx];
+    const future = expression[idx + 1];
+    return !isNaN(prev) && current === '.' && !isNaN(future);
+
+}
+
 const lexer = (expression) => {
     const handleUnclaimed = () => {
         if (unclaimed.length > 0) {
@@ -30,12 +37,7 @@ const lexer = (expression) => {
     const lexemes = [];
     let quotes = 0;
     let unclaimed = "";
-    let ignoreNext = false;
     for (let i = 0 ; i < expression.length ; i ++ ) {
-        if (ignoreNext) {
-            ignoreNext = false;
-            continue;
-        }
         const currentChar = expression[i];
         if (currentChar === '"' || currentChar === "'") {
             quotes ++;
@@ -60,8 +62,11 @@ const lexer = (expression) => {
             const operator = expression.slice(i,i + 2);
             handleUnclaimed();
             lexemes.push(operator);
-            ignoreNext = true;
+            i++;
         } else if (['-','='].includes(currentChar)) {
+            handleUnclaimed();
+            lexemes.push(currentChar);
+        } else if (currentChar === '.' && !isNumericLiteral(expression, i)) {
             handleUnclaimed();
             lexemes.push(currentChar);
         } else if (currentChar !== ' '){
@@ -81,3 +86,10 @@ console.log(lexer("something x:\n" +
     "\tz = 44\n" +
     "\tx + y + z"));
 console.log(lexer("arr -([frame [r g b a]])-> frame"))
+console.log(lexer("3.5"));
+console.log(lexer("a + 3.5"))
+console.log(lexer("a.substr(b)"))
+
+module.exports = {
+    lexer
+}
