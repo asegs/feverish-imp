@@ -1,0 +1,77 @@
+Fever v2 syntax (imp):
+
+Define a data objects type with the (type) syntax
+This is primarily used in pattern matches and records
+
+Define a record like:
+
+Meal:
+	name (string)
+	price (number)
+	
+Primitive types are:
+string: "hello!"
+number: 123 or 123.5
+bool: true, false
+
+Meta types are:
+list: (type [])
+map: {}
+record
+field: :price
+
+The last line of a function is its return value.
+You can manually perform an early return as well with the return keyword.
+Pattern matching can also match on the number of arguments.
+Functions are defined as such:
+MyFunction a b: a * b
+
+Functions can have optional types
+square a (number) -> number:
+	a * a
+
+Pattern matching can be used heavily in the signature
+
+Most computation is performed by function calls and use of a small set of operators.
+Function calls can be made by providing the function name followed by arguments, like "pow(2,8)".
+They can also provide the first argument followed by a dot and then the rest of the arguments, like "2.pow(8)".  This can also be done with a space instead ("2 pow(8)")
+
+Operators can be overloaded using pattern matching.  For example:
+remove haystack [-1,-1]: haystack
+remove haystack [start,end]: haystack.substr(0,start) + haystack.substr(end)
+- haystack (string) needle -> string:
+	return remove haystack needle.find_in(haystack)
+
+"hello" - "lo" // "hel"
+
+
+Here are some operators:
+	+: adds two things
+	-: subtracts..
+	*: ....
+	/: ....
+	&: ands two booleans
+	|: ors two booleans
+	->: maps over a list
+	\>: reduces an object by one dimension
+	~>: filters a list
+
+Special cases (abitrary):
+	Record[] -> :field = returns a list of that field for each record, Meal[] -> :price = [21,24,14].
+	Record + Record = [Record,Record]
+	
+Destructuring:
+Pattern matching, maps, and assignments can all destructure.  For example:
+	[frame [r g b a]] = get_pixel ....
+	pixels -([frame [r g b a]])-> avg([r,g,b])
+
+Pattern matching:
+You can pattern match on:
+	Primitive values: pow n 0: 1 or greet "wife": "My dear!"
+	Known variables: a = 10, f a b: ... (a is treated as 10, not variable)
+	Expressions: f a<10: "Less than 10!"
+	Form: substr body start end: _substr(body, start, end), substr body start: _substr(body, start, len(body))
+	Advanced expressions: f a \> (0, $ + @) == 6: "Sums to 6!"
+	
+By declaring the types of arguments to a function, you ensure that that version of the function is called before trying any others.
+Since operators are functions, you can take this pretty far.
