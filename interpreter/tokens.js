@@ -50,7 +50,7 @@ const lexer = (expression) => {
             }
         } else if (quotes % 2 === 1) {
             unclaimed += currentChar;
-        } else if (['+','*','/','(',')',',','[',']',':','\n','\t','>','<'].includes(currentChar)) {
+        } else if (['+','*','/','(',')',',','[',']',':','\n','\t','>','<','{','}'].includes(currentChar)) {
             handleUnclaimed();
             lexemes.push(currentChar);
         } else if (
@@ -85,7 +85,7 @@ console.log(lexer("something x:\n" +
     "\ty = 33\n" +
     "\tz = 44\n" +
     "\tx + y + z"));
-console.log(lexer("arr -([frame [r g b a]])-> frame"))
+console.log(lexer("arr -{[frame [r g b a]]}-> frame"))
 console.log(lexer("3.5"));
 console.log(lexer("a + 3.5"))
 console.log(lexer("a.substr(b)"))
