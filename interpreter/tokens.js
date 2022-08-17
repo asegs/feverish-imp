@@ -79,16 +79,16 @@ const lexer = (expression) => {
     return lexemes.filter( l => l.length > 0).map(l =>  l.replaceAll(" ",""));
 }
 
-console.log(lexer("x = 3"));
-console.log(lexer("square n (int) -> int: n * n"))
-console.log(lexer("something x:\n" +
-    "\ty = 33\n" +
-    "\tz = 44\n" +
-    "\tx + y + z"));
-console.log(lexer("arr -{[frame [r g b a]]}-> frame"))
-console.log(lexer("3.5"));
-console.log(lexer("a + 3.5"))
-console.log(lexer("a.substr(b)"))
+// console.log(lexer("x = 3"));
+// console.log(lexer("square n (int) -> int: n * n"))
+// console.log(lexer("something x:\n" +
+//     "\ty = 33\n" +
+//     "\tz = 44\n" +
+//     "\tx + y + z"));
+// console.log(lexer("arr -{[frame [r g b a]]}-> frame"))
+// console.log(lexer("3.5"));
+// console.log(lexer("a + 3.5"))
+// console.log(lexer("a.substr(b)"))
 
 module.exports = {
     lexer

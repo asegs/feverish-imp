@@ -1,0 +1,4 @@
+-Lex to tokens
+-Infix operators with parens
+-Tokenize sequences to types
+-Feed tokenized sequences to interpreter
